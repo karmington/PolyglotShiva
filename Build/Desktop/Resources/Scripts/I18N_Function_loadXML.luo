@@ -1,0 +1,71 @@
+
+
+
+
+
+
+
+function I18N.loadXML(sXMLFileName)
+
+
+local hUser=application.getCurrentUser()
+local sLanguage=user.getAIVariable(hUser,"I18N","sLanguage")
+local sLanguageOverride=user.getAIVariable(hUser,"I18N","sLanguageOverride")
+local sLocalizedFilename
+
+
+
+
+if not string.isEmpty(sLanguageOverride)then
+sLanguage=sLanguageOverride
+end
+
+
+
+
+if not application.isResourceReferenced(sXMLFileName.."-"..sLanguage,application.kResourceTypeXML)then
+
+if application.isResourceReferenced(sXMLFileName.."-enUS enGB",application.kResourceTypeXML)then
+log.warning("Falling back to english")
+sLocalizedFilename=sXMLFileName.."-enUS enGB"
+else
+log.warning("Can't fall back to english!")
+return 0
+end
+else
+sLocalizedFilename=sXMLFileName.."-"..sLanguage
+end
+
+local ht=user.getAIVariable(hUser,"I18N","htLoadedFiles")
+local hXML=user.getAIVariable(hUser,"I18N","hXML")
+
+
+if not hashtable.contains(ht,sXMLFileName)then
+xml.empty(hXML)
+xml.createFromResource(hXML,sLocalizedFilename)
+
+local hRoot=xml.getRootElement(hXML)
+
+if(hRoot)then
+
+local htNewHash=hashtable.newInstance()
+for child=0,xml.getElementChildCount(hRoot)- 1 do
+local hChild=xml.getElementChildAt(hRoot,child)
+local sAttribute=xml.getAttributeValue(xml.getElementAttributeWithName(hChild,"name"))
+local sValue=xml.getElementValue(hChild)
+hashtable.add(htNewHash,sAttribute,sValue)
+end
+
+hashtable.add(ht,sXMLFileName,htNewHash)
+
+user.setAIVariable(hUser,"I18N","nStringCount",xml.getElementChildCount(hRoot))
+
+log.message("Added ",xml.getElementChildCount(hRoot)," entries for ",sXMLFileName)
+
+end
+end
+
+xml.empty(hXML)
+
+
+end

@@ -1,0 +1,90 @@
+
+
+
+
+
+
+
+function I18N.getString(sStringToGet)
+
+
+
+
+
+
+
+local sFile,sString
+local tSplit=table.newInstance()
+string.explode(sStringToGet,tSplit,"|")
+
+if table.getSize(tSplit)~=2 then
+log.warning("Invalid argument passed to getString: ",sStringToGet)
+return nil
+end
+
+sFile=table.getFirst(tSplit)
+sString=table.getLast(tSplit)
+
+
+
+
+
+
+
+
+
+
+
+local sAppend=""
+local sSecondLocalization=""
+
+if string.contains(sString,"{")then
+
+local nBracketStartIndex=string.findFirst(sString,"{",0)
+local nBracketEndIndex=string.findFirst(sString,"}",nBracketStartIndex)
+sAppend=string.getSubString(sString,nBracketStartIndex+1,nBracketEndIndex-nBracketStartIndex-1)
+
+
+
+local nStringLength=string.getLength(sString)
+if nBracketEndIndex==nStringLength - 1 then
+
+sString=string.getSubString(sString,0,nBracketStartIndex)
+
+
+else
+
+
+sSecondLocalization=string.getSubString(sString,nBracketEndIndex+1,nStringLength - nBracketEndIndex - 1)
+
+sString=string.getSubString(sString,0,nBracketStartIndex)
+end
+end
+
+
+
+
+I18N.loadXML(sFile)
+
+
+
+
+
+local ht=this.htLoadedFiles()
+
+local innerHash=hashtable.get(ht,sFile)
+local translatedString=innerHash and hashtable.get(innerHash,sString)or""
+
+if string.getLength(sAppend)>0 then
+translatedString=translatedString..sAppend
+end
+
+if string.getLength(sSecondLocalization)>0 then
+local sSecondLocalized=innerHash and hashtable.get(innerHash,sSecondLocalization)or""
+translatedString=translatedString..sSecondLocalized
+end
+
+return translatedString
+
+
+end

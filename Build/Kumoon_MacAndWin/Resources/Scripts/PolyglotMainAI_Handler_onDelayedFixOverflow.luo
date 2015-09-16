@@ -1,0 +1,16 @@
+
+
+
+
+
+
+
+function PolyglotMainAI.onDelayedFixOverflow(sHudCompoTag,bAllowMultiLine)
+
+
+local hUser=this.getUser()
+
+this.fixHudComponentTextOverflow(hud.getComponent(hUser,sHudCompoTag),bAllowMultiLine)
+
+
+end

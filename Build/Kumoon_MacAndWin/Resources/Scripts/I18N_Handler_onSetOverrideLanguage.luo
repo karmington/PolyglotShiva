@@ -1,0 +1,14 @@
+
+
+
+
+
+
+
+function I18N.onSetOverrideLanguage(sCode)
+
+
+this.setOverride(sCode)
+
+
+end

@@ -1,0 +1,46 @@
+
+
+
+
+
+
+
+function PolyglotMainAI.Main_onEnter()
+
+
+local hUser=application.getCurrentUser()
+
+hud.newTemplateInstance(hUser,"PolyglotHUD","polyglotHUD")
+
+
+
+if this.bFirstLaunch()then
+local sLanguageCode=user.getAIVariable(hUser,"I18N","sLanguage")
+local htFontDefs=user.getAIVariable(hUser,"PolyglotFontDefinitionAI","htFontDefs")
+local htFileTable=hashtable.getAt(htFontDefs,0)
+
+local sFontOverride=hashtable.get(htFileTable,sLanguageCode)
+if string.getLength(sFontOverride)>0 then
+
+log.message("onEnter, font : ",sFontOverride)
+user.sendEventImmediate(this.getUser(),"PolyglotFontDefinitionAI","onSetOverrideFont",sFontOverride)
+
+end
+this.bFirstLaunch(false)
+end
+
+
+
+
+local count=hud.getComponentCount(hUser)
+for i=0,count - 1 do
+local hComponent=hud.getComponentAt(hUser,i)
+this.localizeStrings(hComponent)
+end
+
+
+
+this.nNumStrings(user.getAIVariable(hUser,"I18N","nStringCount"))
+
+
+end

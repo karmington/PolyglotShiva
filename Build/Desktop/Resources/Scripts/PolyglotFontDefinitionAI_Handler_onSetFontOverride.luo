@@ -1,0 +1,14 @@
+
+
+
+
+
+
+
+function PolyglotFontDefinitionAI.onSetFontOverride(sFont)
+
+
+user.setAIVariable(this.getUser(),"PolyglotFontDefinitionAI","sFontOverride",sFont)
+
+
+end

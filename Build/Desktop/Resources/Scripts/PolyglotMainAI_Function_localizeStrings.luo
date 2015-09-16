@@ -1,0 +1,89 @@
+
+
+
+
+
+
+
+function PolyglotMainAI.localizeStrings(hComponent)
+
+
+
+
+local hUser=application.getCurrentUser()
+
+
+local bPadding=false 
+local bDefaultOverride=true 
+
+local sFontOverride=user.getAIVariable(hUser,"PolyglotFontDefinitionAI","sFontOverride")
+if not sFontOverride or string.getLength(sFontOverride)==0 then
+log.warning("no default fontOverride set")
+bDefaultOverride=false 
+end
+
+local sComponentText
+local sLocalizedText
+
+
+
+if hud.getComponentType(hComponent)==hud.kComponentTypeCheck then
+
+sComponentText=hud.getCheckText(hComponent)
+if bDefaultOverride then hud.setCheckFont(hComponent,sFontOverride)end
+
+elseif hud.getComponentType(hComponent)==hud.kComponentTypeButton then
+
+sComponentText=hud.getButtonText(hComponent)
+if bDefaultOverride then hud.setButtonFont(hComponent,sFontOverride)end
+
+elseif hud.getComponentType(hComponent)==hud.kComponentTypeLabel then
+
+sComponentText=hud.getLabelText(hComponent)
+if bDefaultOverride then hud.setLabelFont(hComponent,sFontOverride)end
+
+end
+
+
+
+
+if sComponentText and string.getLength(sComponentText)>0 then
+
+sLocalizedText=I18N.getString("PolyMaster|"..sComponentText)
+
+end
+
+
+
+if sLocalizedText and string.getLength(sLocalizedText)>0 then
+
+if bPadding then
+sLocalizedText=" "..sLocalizedText.." "
+end
+
+
+
+
+
+if hud.getComponentType(hComponent)==hud.kComponentTypeLabel then
+hud.setLabelTextEncoding(hComponent,hud.kEncodingUTF8)
+hud.setLabelText(hComponent,sLocalizedText)
+elseif hud.getComponentType(hComponent)==hud.kComponentTypeButton then
+hud.setButtonTextEncoding(hComponent,hud.kEncodingUTF8)
+hud.setButtonText(hComponent,sLocalizedText)
+elseif hud.getComponentType(hComponent)==hud.kComponentTypeCheck then
+hud.setCheckTextEncoding(hComponent,hud.kEncodingUTF8)
+hud.setCheckText(hComponent,sLocalizedText)
+end
+
+
+this.fixHudComponentTextOverflow(hComponent)
+
+end
+
+
+end
+
+
+
+

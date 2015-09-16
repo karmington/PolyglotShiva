@@ -1,0 +1,14 @@
+
+
+
+
+
+
+
+function I18N.onLocalizeHudComponent(sComponentTag)
+
+
+this.localizeHudComponent(sComponentTag)
+
+
+end

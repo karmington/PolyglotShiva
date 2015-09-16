@@ -1,0 +1,14 @@
+
+
+
+
+
+
+
+function PolyglotFontDefinitionAI.onInit()
+
+
+this.loadFontDefinitionXML()
+
+
+end

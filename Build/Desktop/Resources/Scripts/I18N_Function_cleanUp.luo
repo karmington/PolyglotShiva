@@ -1,0 +1,15 @@
+
+
+
+
+
+
+
+function I18N.cleanUp()
+
+
+local ht=user.getAIVariable(application.getCurrentUser(),"I18N","htLoadedFiles")
+hashtable.empty(ht)
+
+
+end

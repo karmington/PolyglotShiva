@@ -1,0 +1,14 @@
+
+
+
+
+
+
+
+function PolyglotMainAI.Main_onLoop()
+
+
+log.message("frame")
+
+
+end

@@ -1,0 +1,40 @@
+
+
+
+
+
+
+
+function PolyglotMainAI.onNextLanguage()
+
+
+local hUser=application.getCurrentUser()
+local nIndex=this.nLanguageIndex()
+
+
+
+local htFontDefs=user.getAIVariable(hUser,"PolyglotFontDefinitionAI","htFontDefs")
+local htFileTable=hashtable.getAt(htFontDefs,0)
+local sLanguageOverride=hashtable.getKeyAt(htFileTable,nIndex)
+local sFontOverride=hashtable.getAt(htFileTable,nIndex)
+
+
+
+log.message("Override to ",sLanguageOverride," ",nIndex," font: ",sFontOverride)
+user.sendEventImmediate(hUser,"I18N","onSetLanguageOverride",sLanguageOverride)
+if string.getLength(sFontOverride)>0 then user.sendEvent(hUser,"I18N","onSetFontOverride",sFontOverride)end
+
+
+
+local nTableSize=hashtable.getSize(htFileTable)
+nIndex=nIndex+1
+if nIndex>nTableSize - 1 then nIndex=0 end
+this.nLanguageIndex(nIndex)
+
+
+
+this.Idle()
+this.Main()
+
+
+end

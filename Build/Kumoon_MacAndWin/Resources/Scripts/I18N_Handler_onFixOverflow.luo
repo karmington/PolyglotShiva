@@ -1,0 +1,16 @@
+
+
+
+
+
+
+
+function I18N.onFixOverflow(sComponent,bAllowMultiline)
+
+
+local hUser=this.getUser()
+local hComponent=hud.getComponent(hUser,sComponent)
+this.fixHudComponentTextOverflow(hComponent,bAllowMultiline)
+
+
+end
